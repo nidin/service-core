@@ -1,0 +1,55 @@
+{
+  "name": "@01/service-core",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "tester.js"
+  ],
+  "private": false,
+  "scripts": {
+    "start": "webpack --watch",
+    "build.dev": "webpack",
+    "build": "NODE_ENV=production webpack",
+    "precommit": "lint-staged",
+    "prettier": "prettier --write '**/*.{js,json,ts,gql,graphql}'",
+    "test": "jest --config=jest.json"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@01/env": "1.0.2",
+    "@apollo/federation": "0.8.0",
+    "apollo-cache-inmemory": "1.6.2",
+    "apollo-client": "2.6.3",
+    "apollo-link-schema": "1.2.3",
+    "axios": "0.19.0",
+    "chalk": "2.4.2",
+    "graphql": "14.4.2",
+    "he": "1.2.0"
+  },
+  "devDependencies": {
+    "@types/graphql": "14.2.3",
+    "@types/he": "1.1.0",
+    "@types/jest": "24.0.13",
+    "clean-webpack-plugin": "3.0.0",
+    "fs-extra": "8.1.0",
+    "prettier": "1.17.1",
+    "ts-jest": "24.0.2",
+    "ts-loader": "6.0.4",
+    "tslint": "5.18.0",
+    "tslint-config-airbnb": "5.11.1",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-loader": "3.5.4",
+    "typescript": "3.5.1",
+    "webpack": "4.39.1",
+    "webpack-cli": "3.3.6",
+    "webpack-node-externals": "1.7.2"
+  },
+  "gitHead": "6911b5e80023f276cb4d99dbebce4f03dc95db66"
+}
