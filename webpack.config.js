@@ -19,14 +19,14 @@ const mode =
 const isDevMode = mode === "development";
 const prodEntries = {
   index: ["./src/index.ts"],
-  tester: ["./src/tester/index.ts"]
+  tester: ["./src/tester/index.ts"],
 };
 
 const outDir = "dist";
 const entries = isDevMode
   ? {
       ...prodEntries,
-      index: ["webpack/hot/poll?1000", ...prodEntries.index]
+      index: ["webpack/hot/poll?1000", ...prodEntries.index],
     }
   : prodEntries;
 
@@ -51,7 +51,7 @@ const buildNum = () => {
 const { baseUrl } = tsConfig.compilerOptions;
 const tsPaths = tsConfig.compilerOptions.paths;
 const resolvedTsPaths = {};
-Object.keys(tsPaths).forEach(pathName => {
+Object.keys(tsPaths).forEach((pathName) => {
   const [tsPath] = tsPaths[pathName];
   let cleanPathName = pathName.replace(/\*/gi, "");
   cleanPathName =
@@ -74,51 +74,51 @@ module.exports = {
   target: "node",
   mode,
   stats: {
-    warnings: false
+    warnings: false,
   },
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
   },
   context: __dirname,
   entry: entries,
   externals: [
     nodeExternals({
-      whitelist: ["webpack/hot/poll?1000"]
-    })
+      allowlist: ["webpack/hot/poll?1000"],
+    }),
   ],
   devtool: "inline-source-map",
   optimization: {
-    minimize: false
+    minimize: false,
+    moduleIds: "named",
+    emitOnErrors: false,
   },
   devServer: {
     hot: true,
     contentBase: path.resolve(__dirname),
-    publicPath: "/"
+    publicPath: "/",
   },
   resolve: {
     mainFields: ["main", "module"],
     extensions: [".ts", ".js", ".graphql", ".gql"],
     alias: {
-      ...resolvedTsPaths
-    }
+      ...resolvedTsPaths,
+    },
   },
   plugins: [
     ...(isDevMode ? [] : [new CleanWebpackPlugin()]),
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(pkg.version + buildNum()),
-      APP_NAME: JSON.stringify(pkg.name)
+      APP_NAME: JSON.stringify(pkg.name),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.NamedModulesPlugin()
   ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: "ts-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         enforce: "pre",
@@ -126,15 +126,15 @@ module.exports = {
         loader: "tslint-loader",
         exclude: /(node_modules)/,
         options: {
-          emitErrors: true
-        }
+          emitErrors: true,
+        },
       },
       {
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
-        loader: "graphql-tag/loader"
-      }
-    ]
+        loader: "graphql-tag/loader",
+      },
+    ],
   },
   output: {
     filename: "[name].js",
@@ -143,6 +143,6 @@ module.exports = {
       return path.resolve(__dirname, encodeURI(info.resourcePath));
     },
     library: "[name]",
-    libraryTarget: "umd"
-  }
+    libraryTarget: "umd",
+  },
 };
